@@ -1,36 +1,75 @@
-/*
-   1. Создайте функцию createButton(). Необходимо, чтобы эта функция осуществила вставку в body тег button с текстом: "Удали меня".
-      При клике по button удалить этот button.
-*/
-export function createButton() {}
+export function createButton() {
+    const button = document.createElement('button');
+    button.textContent = 'Удали меня';
 
-/*
-   2. Создайте функцию createArrList(arr), в которую передается 1 параметр: arr - массив строк.
-      Функция выводит этот массив в виде маркированного списка внутри тега body.
-      При наведении курсора мыши на элемент списка у этого элемента создается атрибут title, в котором записан его текст.
-*/
-export function createArrList(arr) {}
+    button.addEventListener('click', function () {
+        button.remove();
+    });
 
-/*
-   3. Создайте функцию createLink(), которая сгенерирует следующую разметку и вставит ее в body:
+    document.body.appendChild(button);
+}
 
-      <a href="https://tensor.ru/">tensor</a>
+export function createArrList(arr) {
+    const ul = document.createElement('ul');
 
-      При первом клике по ссылке в конец ее текста через пробел дописывается ее href.
-      При следующем клике происходит действие по умолчанию (переход по ссылке в текущей вкладке).
-*/
-export function createLink() {}
+    arr.forEach((item) => {
+        const li = document.createElement('li');
+        li.textContent = item;
 
-/*
-   4. Создайте функцию createList(), которая сгенерирует следующую разметку и вставит ее в body:
+        li.addEventListener('mouseover', function () {
+            li.title = li.textContent;
+        });
 
-      <ul>
-         <li>Пункт</li>
-      </ul>
-      <button>Добавить пункт</button>
+        ul.appendChild(li);
+    });
 
-      При клике по элементу li ему в конец текста добавляется восклицательный знак.
-      При клике по button в конец списка добавляется новый элемент li с текстом: "Пункт".
-      Клик по новому li также добавляет восклицательный знак в конец текста.
-*/
-export function createList() {}
+    document.body.appendChild(ul);
+}
+
+export function createLink() {
+    const link = document.createElement('a');
+    link.href = 'https://tensor.ru/';
+    link.textContent = 'tensor';
+
+    let firstClick = true;
+
+    link.addEventListener('click', function (event) {
+        if (firstClick) {
+            event.preventDefault();
+            link.textContent += ' ' + link.href;
+            firstClick = false;
+        }
+    });
+
+    document.body.appendChild(link);
+}
+
+export function createList() {
+    const ul = document.createElement('ul');
+
+    const li = document.createElement('li');
+    li.textContent = 'Пункт';
+
+    li.addEventListener('click', function () {
+        li.textContent += '!';
+    });
+
+    ul.appendChild(li);
+
+    const button = document.createElement('button');
+    button.textContent = 'Добавить пункт';
+
+    button.addEventListener('click', function () {
+        const newLi = document.createElement('li');
+        newLi.textContent = 'Пункт';
+
+        newLi.addEventListener('click', function () {
+            newLi.textContent += '!';
+        });
+
+        ul.appendChild(newLi);
+    });
+
+    document.body.appendChild(ul);
+    document.body.appendChild(button);
+}
